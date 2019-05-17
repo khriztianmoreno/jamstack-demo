@@ -1,3 +1,13 @@
+const dotenv = require('dotenv')
+
+if (process.env.ENVIRONMENT !== "production") {
+  dotenv.config({
+    path: `.env.${process.env.NODE_ENV}`
+  })
+}
+
+const { GATSBY_CONTENTFUL_SPACE_ID, GATSBY_CONTENTFUL_ACCESS_TOKEN } = process.env
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby Default Starter`,
@@ -5,6 +15,13 @@ module.exports = {
     author: `@gatsbyjs`,
   },
   plugins: [
+    {
+      resolve: 'gatsby-source-contentful',
+      options: {
+        spaceId: GATSBY_CONTENTFUL_SPACE_ID,
+        accessToken: GATSBY_CONTENTFUL_ACCESS_TOKEN,
+      }
+    },
     'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-source-filesystem',
