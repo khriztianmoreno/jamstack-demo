@@ -8,7 +8,7 @@ import Job from "../components/Job"
 const IndexPage = () => (
   <Layout>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <h1>Hi people</h1>
+    <h1>Hola personas</h1>
     <Job />
     <Link to="/page-2/">Go to page 2</Link>
   </Layout>
