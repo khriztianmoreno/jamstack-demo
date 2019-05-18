@@ -21,16 +21,17 @@ import { StaticQuery, graphql } from 'gatsby'
  */
 const query = graphql`
 query JobsExperienceQuery {
-  contentfulJobList {
-    moduleName
-    jobs {
-      title
-      company
-      years
-      responsibilities
-      logo {
-        file {
-          url
+  allContentfulJobs {
+    edges {
+      node {
+        title
+        company
+        years
+        responsibilities
+        logo {
+          file {
+            url
+          }
         }
       }
     }
@@ -38,21 +39,21 @@ query JobsExperienceQuery {
 }
 `
 
-const JobItem = ({ data }) => data.map((job, idx) => ((
+const JobItem = ({ data }) => data.map(({node}, idx) => ((
   <div className="col-xs-12" key={idx}>
     <div className="item-block">
       <header>
-        <img src={job.logo.file.url} alt={`Logo ${job.company}`} />
+        <img src={node.logo.file.url} alt={`Logo ${node.company}`} />
         <div className="hgroup">
-          <h4>{ job.company }</h4>
-          <h5>{ job.title }</h5>
+          <h4>{ node.company }</h4>
+          <h5>{ node.title }</h5>
         </div>
-        <h6 className="time">{ job.years }</h6>
+        <h6 className="time">{ node.years }</h6>
       </header>
       <div className="item-body">
         <p>Responsibilities:</p>
         <ul>
-          { job.responsibilities.map((responsibility, key) => (<li key={key}> { responsibility } </li>)) }
+          { node.responsibilities.map((responsibility, key) => (<li key={key}> { responsibility } </li>)) }
         </ul>
       </div>
     </div>
@@ -63,9 +64,9 @@ const JobItem = ({ data }) => data.map((job, idx) => ((
 const Job = () => (
   <StaticQuery
     query={query}
-    render={({ contentfulJobList }) => {
-      const { jobs } = contentfulJobList
-      return <JobItem data={jobs} />
+    render={({ allContentfulJobs }) => {
+      const { edges } = allContentfulJobs
+      return <JobItem data={edges} />
     }}
   />
 )
